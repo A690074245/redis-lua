@@ -64,7 +64,7 @@ public class DemoController {
     }
 
     @PostMapping("/addAge")
-    @ApiOperation("年龄增长")
+    @ApiOperation("年龄增长接口")
     public void addAge(int id,int age){
         redisTemplate.opsForHash().increment("user:"+id,"age",age);
         System.out.println(redisTemplate.opsForHash().get("user:"+id,"age"));
