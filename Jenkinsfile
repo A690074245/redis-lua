@@ -63,9 +63,6 @@ pipeline{
             when{
                 environment name: '_deployEnv' ,value: 'prod'
             }
-            environment{
-                BITBUCKET_CREDS = credentials("${_prodCredsId}")
-            }
             steps{
                 script{
                     _deployMap = input (
@@ -77,10 +74,13 @@ pipeline{
                             string(defaultValue: 'root',description: '目标服务器用户名',name: '_targetUser'),
                             password(defaultValue: 'SECRET',description: '目标服务器密码',name: '_targetPwd'),
                         ]
-                    ),
-                    sh "sshpass -p ${_deployMap['_targetPort']} scp ${env.WORKSPACE}/target/${env.JOB_NAME}.jar ${_deployMap['_targetUser']}@${_deployMap['_targetIP']}:${_buildPath}/${env.JOB_NAME}"
+                    )
                 }
             }
+        }
+
+        stage('SCP'){
+            sh "sshpass -p ${_deployMap['_targetPort']} scp ${env.WORKSPACE}/target/${env.JOB_NAME}.jar ${_deployMap['_targetUser']}@${_deployMap['_targetIP']}:${_buildPath}/${env.JOB_NAME}"
         }
     }
 }
