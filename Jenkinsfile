@@ -80,7 +80,9 @@ pipeline{
         }
 
         stage('SCP'){
-            sh "sshpass -p ${_deployMap['_targetPort']} scp ${env.WORKSPACE}/target/${env.JOB_NAME}.jar ${_deployMap['_targetUser']}@${_deployMap['_targetIP']}:${_buildPath}/${env.JOB_NAME}"
+            steps{
+                sh "sshpass -p ${_deployMap['_targetPort']} scp ${env.WORKSPACE}/target/${env.JOB_NAME}.jar ${_deployMap['_targetUser']}@${_deployMap['_targetIP']}:${_buildPath}/${env.JOB_NAME}"
+            }
         }
     }
 }
