@@ -98,9 +98,9 @@ pipeline{
                              remote.port=Integer.parseInt("${_deployMap['_targetPort']}")
                              remote.allowAnyHosts= true
                              //修改启动脚本模板内容
-                             sshCommand remote: remote, command: "cd ${_buildPath}/${env.JOB_NAME}/ && sed -i \"s|service_name_tmp|${env.JOB_NAME}|g\" install.sh && \n"+
-                             "sed -i \"s|service_path_tmp|${_buildPath}|g\" install.sh && \n"+
-                             "sed -i \"s|java_home_tmp|`echo $JAVA_HOME`|g\" install.sh && chmod a+x install.sh"
+                             sshCommand remote: remote, command: "cd ${_buildPath}/${env.JOB_NAME}/ && sed -i \"s|service_name_tmp|${env.JOB_NAME}|g\" install.sh"
+                             sshCommand remote: remote, command: "cd ${_buildPath}/${env.JOB_NAME}/ && sed -i \"s|service_path_tmp|${_buildPath}|g\" install.sh"
+                             sshCommand remote: remote, command: "cd ${_buildPath}/${env.JOB_NAME}/ && sed -i \"s|java_home_tmp|`echo $JAVA_HOME`|g\" install.sh && chmod a+x install.sh"
                              sshCommand remote: remote, command: "nohup ${_buildPath}/${env.JOB_NAME}/install.sh > ${_buildPath}/${env.JOB_NAME}/install.log 2>&1 &"
                          }
                   }
