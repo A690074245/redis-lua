@@ -85,7 +85,7 @@ pipeline{
             }
             steps{
                  //验证目录是否存在，不存在则创建
-                 sh "sshpass -p ${_deployMap['_targetPwd']} ssh -p ${_deployMap['_targetPort']} ${_deployMap[_targetUser]}@${_deployMap[_targetIP]} \"[ -d ${_buildPath}/${env.JOB_NAME}/ ] && `echo '1 < 2'` || mkdir -p ${_buildPath}/${env.JOB_NAME}/\""
+                 sh "sshpass -p ${_deployMap['_targetPwd']} ssh -p ${_deployMap['_targetPort']} ${_deployMap['_targetUser']}@${_deployMap['_targetIP']} \"[ -d ${_buildPath}/${env.JOB_NAME}/ ] && `echo '1 < 2'` || mkdir -p ${_buildPath}/${env.JOB_NAME}/\""
                  //远程传输jar包和启动脚本
                  sh "sshpass -p ${_deployMap['_targetPwd']} scp -P ${_deployMap['_targetPort']} ${env.WORKSPACE}/target/${env.JOB_NAME}.jar ${_buildPath}/install.sh ${_deployMap['_targetUser']}@${_deployMap['_targetIP']}:${_buildPath}/${env.JOB_NAME}/"
                  script{
